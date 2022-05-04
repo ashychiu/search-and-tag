@@ -18,15 +18,26 @@ const App = () => {
     fetchData();
   }, []);
 
+  const getAverage = (grades) => {
+    let sum = grades
+      .map((grade) => Number(grade))
+      .reduce((prev, curr) => prev + curr);
+    return sum / grades.length;
+  };
+
   return (
-    <div key={students.number} className="container">
+    <div className="container">
       {students.map((student) => {
         return (
-          <div>
+          <div key={student.id}>
             <img src={student.pic} alt="profile pic" />
             <p>
               {student.firstName} {student.lastName}
             </p>
+            <p>Email: {student.email}</p>
+            <p>Company: {student.company}</p>
+            <p>Skill: {student.skill}</p>
+            <p>Average: {getAverage(student.grades)}%</p>
           </div>
         );
       })}
