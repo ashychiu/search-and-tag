@@ -1,9 +1,77 @@
-// @use "./partials/variables" as *;
-// @use "./partials/mixins" as *;
-// @use "./partials/typography";
+@use "./partials/variables" as *;
+@use "./partials/mixins" as *;
 
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");
+
+$raleway: "Raleway", serif;
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  font-family: $raleway;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // width: 100%;
+  background-color: lightgray;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  margin: 50px;
+}
+.student-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  border-bottom: 1px solid lightgray;
+  &__avatar {
+    margin: 50px 10px 0px 30px;
+    object-fit: contain;
+    width: 20%;
+    height: 30%;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+  }
+  &__details {
+    width: 80%;
+  }
+}
+
+.search-input {
+  width: 97%;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  height: 2rem;
+  margin: 2%;
+  &:focus {
+    outline: none;
+    background-color: lightgray;
+  }
+}
+
+::placeholder {
+  font-family: $raleway;
+  font-size: 1rem;
+}
+
+// input:focus {
+//   color: lightgray;
+// }
