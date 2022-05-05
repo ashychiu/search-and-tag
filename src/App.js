@@ -6,6 +6,9 @@ const App = () => {
   const [students, setStudents] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [query, setQuery] = useState("");
+  const [tagQuery, setTagQuery] = useState("");
+  const [showGrades, setShowGrades] = useState(false);
+  const [expandedId, setExpandedId] = useState(-1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +50,11 @@ const App = () => {
     return sum / grades.length;
   };
 
+  const handleClick = (i) => {
+    setExpandedId(expandedId === i ? -1 : i);
+    setShowGrades(!showGrades);
+  };
+
   return (
     <main className="container">
       <div>
@@ -57,8 +65,15 @@ const App = () => {
             setQuery(e.target.value);
           }}
         />
+        <input
+          className="search-input"
+          placeholder="Search by tag"
+          onChange={(e) => {
+            setTagQuery(e.target.value);
+          }}
+        />
       </div>
-      {listToRender.map((student) => {
+      {listToRender.map((student, i) => {
         return (
           <div key={student.id} className="student-card">
             <img
@@ -76,7 +91,20 @@ const App = () => {
               <p>Company: {student.company}</p>
               <p>Skill: {student.skill}</p>
               <p>Average: {getAverage(student.grades)}%</p>
+              <div>
+                {student.grades.map((grade) => {
+                  return (
+                    <p className={showGrades ? "show" : "hide"}>
+                      Test {student.grades.indexOf(grade) + 1}: &nbsp;&nbsp;{" "}
+                      {grade}%
+                    </p>
+                  );
+                })}
+              </div>
             </div>
+            <button onClick={handleClick} aria-expanded={expandedId === i}>
+              {showGrades ? "-" : "+"}
+            </button>
           </div>
         );
       })}

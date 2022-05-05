@@ -31,7 +31,7 @@ h1 {
 }
 
 .container {
-  width: 100%;
+  width: 600px;
   background-color: white;
   border-radius: 10px;
   margin: 50px;
@@ -72,6 +72,15 @@ h1 {
   font-size: 1rem;
 }
 
-// input:focus {
-//   color: lightgray;
-// }
+.hide {
+  display: none;
+}
+
+button {
+  background-color: white;
+  border: none;
+  font-size: 3rem;
+  color: gray;
+  justify-self: self-start;
+  margin-right: 1rem;
+}
