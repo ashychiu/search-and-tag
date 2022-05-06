@@ -7,8 +7,7 @@ const App = () => {
   const [filtered, setFiltered] = useState([]);
   const [query, setQuery] = useState("");
   const [tagQuery, setTagQuery] = useState("");
-  const [showGrades, setShowGrades] = useState(false);
-  const [expandedId, setExpandedId] = useState(-1);
+  const [showGrades, setShowGrades] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,9 +49,8 @@ const App = () => {
     return sum / grades.length;
   };
 
-  const handleClick = (i) => {
-    setExpandedId(expandedId === i ? -1 : i);
-    setShowGrades(!showGrades);
+  const handleClick = (index) => {
+    setShowGrades(showGrades === index ? null : index);
   };
 
   return (
@@ -73,7 +71,7 @@ const App = () => {
           }}
         />
       </div>
-      {listToRender.map((student, i) => {
+      {listToRender.map((student, index) => {
         return (
           <div key={student.id} className="student-card">
             <img
@@ -91,19 +89,21 @@ const App = () => {
               <p>Company: {student.company}</p>
               <p>Skill: {student.skill}</p>
               <p>Average: {getAverage(student.grades)}%</p>
-              <div>
-                {student.grades.map((grade) => {
-                  return (
-                    <p className={showGrades ? "show" : "hide"}>
-                      Test {student.grades.indexOf(grade) + 1}: &nbsp;&nbsp;{" "}
-                      {grade}%
-                    </p>
-                  );
-                })}
-              </div>
+              {showGrades === index && (
+                <div>
+                  {student.grades.map((grade) => {
+                    return (
+                      <p>
+                        Test {student.grades.indexOf(grade) + 1}: &nbsp;&nbsp;{" "}
+                        {grade}%
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            <button onClick={handleClick} aria-expanded={expandedId === i}>
-              {showGrades ? "-" : "+"}
+            <button onClick={() => handleClick(index)}>
+              {showGrades === index ? "-" : "+"}
             </button>
           </div>
         );
