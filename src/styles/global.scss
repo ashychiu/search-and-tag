@@ -29,7 +29,6 @@ h1 {
   margin: 0.5rem 0;
   font-size: 1.5rem;
   @include tablet {
-    margin: default;
     font-size: 2rem;
   }
 }
@@ -107,9 +106,9 @@ h1 {
 
 div > p {
   margin: 0;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
   @include tablet {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     margin-left: 1rem;
   }
 }
@@ -161,12 +160,13 @@ p.grades {
 button {
   background-color: $primary-light;
   border: none;
-  font-size: 3rem;
-  color: gray;
+  font-size: 2.5rem;
+  color: $secondary-dark;
   align-self: flex-end;
   margin-top: -3rem;
   margin-right: 1rem;
   @include tablet {
+    font-size: 3rem;
     align-self: flex-start;
     margin-top: 0;
   }
