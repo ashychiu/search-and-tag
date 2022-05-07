@@ -29,10 +29,10 @@ const App = () => {
       console.log(filtered);
       const list = query && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
-        if (!query && filtered.length) {
-          return filtered;
-        } else if (!query && !filtered.length) {
+        if (!query && !filtered.length) {
           return null;
+        } else if (!query && filtered.length) {
+          return filtered;
         } else if (
           student.firstName.toLowerCase().includes(searchTerm) ||
           student.lastName.toLowerCase().includes(searchTerm)
@@ -50,10 +50,10 @@ const App = () => {
       console.log(filtered);
       const list = tagQuery && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
-        if (!tagQuery && filtered.length) {
-          return filtered;
-        } else if (!tagQuery && !filtered.length) {
+        if (!tagQuery && !filtered.length) {
           return null;
+        } else if (!tagQuery && filtered.length) {
+          return filtered;
         } else if (student.tags) {
           const lowercased = student.tags.map((tag) => tag.toLowerCase());
           const searchTerm = new RegExp(tagQuery.toLowerCase());

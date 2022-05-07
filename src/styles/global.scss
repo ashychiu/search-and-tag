@@ -25,32 +25,55 @@ a {
 }
 
 h1 {
-  font-size: 2em;
   text-transform: uppercase;
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  @include tablet {
+    margin: default;
+    font-size: 2rem;
+  }
 }
 
 .container {
-  width: 800px;
-  height: 600px;
+  width: 20rem;
+  height: 80vh;
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: $primary-light;
   border-radius: 10px;
-  margin: 50px;
+  margin: 10vh 0;
+  @include tablet {
+    width: 37.5rem;
+  }
+  @include desktop {
+    width: 60rem;
+  }
 }
 .student-card {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
   border-bottom: 1px solid $secondary-light;
+  @include tablet {
+    flex-direction: row;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
   &__avatar {
-    margin: 50px 10px 0px 30px;
+    margin-top: 1rem;
     object-fit: contain;
-    width: 20%;
-    height: 30%;
+    width: 40%;
     border-radius: 50%;
     border: 1px solid $secondary-light;
+    @include tablet {
+      margin: 0.5rem 2rem 0 1.5rem;
+      align-self: flex-start;
+      width: 30%;
+    }
+    @include desktop {
+      width: 15%;
+    }
   }
   &__details {
     width: 80%;
@@ -59,54 +82,79 @@ h1 {
 }
 
 .search-input {
-  width: 97%;
+  font-family: $raleway;
+  width: 100%;
   border: 0;
   border-bottom: 1px solid $secondary-light;
   height: 2rem;
   margin: 2%;
   outline: 0;
+  @include tablet {
+    font-size: 1.125rem;
+  }
   &:focus {
     border-color: $primary-dark;
   }
-}
-
-.tag-input {
-  @extend .search-input;
-  width: 30%;
-  margin: 0;
-  margin-top: 10px;
-  margin-left: 1rem;
-}
-::placeholder {
-  font-family: $raleway;
-  font-size: 1rem;
+  &::placeholder {
+    font-family: $raleway;
+    font-size: 1rem;
+    @include tablet {
+      font-size: 1.125rem;
+    }
+  }
 }
 
 div > p {
   margin: 0;
-  margin-bottom: 8px;
-  margin-left: 1rem;
+  margin-bottom: 4px;
+  @include tablet {
+    margin-bottom: 8px;
+    margin-left: 1rem;
+  }
 }
 
 p.grades {
   margin-bottom: 0;
 }
+
 .tag-container {
-  margin-top: 1rem;
-}
-.tag {
-  background-color: $secondary-light;
-  color: $primary-dark;
-  padding: 5px 8px;
-  border-radius: 4px;
-  margin-right: 0.5rem;
-  &:first-child {
+  margin-top: 0.625rem;
+  overflow: auto;
+  @include tablet {
+    margin-top: 1rem;
     margin-left: 1rem;
   }
 }
 
-.hide {
-  display: none;
+.tag-input {
+  @extend .search-input;
+  width: 50%;
+  margin: 0;
+  margin-top: 0.5rem;
+  @include tablet {
+    margin-top: 0.625rem;
+    margin-left: 1rem;
+  }
+  @include desktop {
+    width: 30%;
+  }
+  &::placeholder {
+    font-family: $raleway;
+    font-size: 1rem;
+  }
+}
+
+.tag {
+  background-color: $secondary-light;
+  color: $primary-dark;
+  padding: 0.3125rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  line-height: 2;
+  font-size: 0.9em;
+  @include tablet {
+    font-size: 1em;
+  }
 }
 
 button {
@@ -114,8 +162,17 @@ button {
   border: none;
   font-size: 3rem;
   color: gray;
-  align-self: flex-start;
+  align-self: flex-end;
+  margin-top: -3rem;
   margin-right: 1rem;
+  @include tablet {
+    align-self: flex-start;
+    margin-top: 0;
+  }
+}
+
+.hide {
+  display: none;
 }
 
 ::-webkit-scrollbar {
