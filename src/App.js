@@ -91,22 +91,28 @@ const App = () => {
   return (
     <main className="container">
       <div>
-        <input
-          className="search-input"
-          type="text"
-          placeholder="Search by name"
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }}
-        />
-        <input
-          className="search-input"
-          type="text"
-          placeholder="Search by tag"
-          onChange={(e) => {
-            setTagQuery(e.target.value);
-          }}
-        />
+        <label htmlFor="searchByName">
+          <input
+            className="search-input"
+            name="searchbyName"
+            type="text"
+            placeholder="Search by name"
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+          />
+        </label>
+        <label htmlFor="searchByTag">
+          <input
+            className="search-input"
+            name="searchByTag"
+            type="text"
+            placeholder="Search by tag"
+            onChange={(e) => {
+              setTagQuery(e.target.value);
+            }}
+          />
+        </label>
       </div>
       {listToRender.map((student, index) => {
         return (
@@ -150,12 +156,14 @@ const App = () => {
                 </div>
               )}
               <form onSubmit={(e) => handleAddTag(e, index)}>
-                <input
-                  type="text"
-                  name="tag"
-                  className="tag-input"
-                  placeholder="Add a tag"
-                />
+                <label htmlFor="tag">
+                  <input
+                    type="text"
+                    name="tag"
+                    className="tag-input"
+                    placeholder="Add a tag"
+                  />
+                </label>
               </form>
             </div>
             <button onClick={() => handleClick(index)}>
