@@ -17,3 +17,7 @@ npm start
 ## port
 
 3000
+
+## see it live
+
+https://ashleychiu-hatchways.netlify.app/
