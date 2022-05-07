@@ -4,6 +4,7 @@ import React from "react";
 
 const App = () => {
   const [students, setStudents] = useState([]);
+  const [tagged, setTagged] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [query, setQuery] = useState("");
   const [tagQuery, setTagQuery] = useState("");
@@ -23,10 +24,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const filterStudentList = (query) => {
+    const filterName = (query) => {
       const searchTerm = query.toLowerCase();
-      const filtered = [...students].filter((student) => {
-        if (!query) {
+      console.log(filtered);
+      const list = query && filtered.length ? filtered : students;
+      const filteredList = list.filter((student) => {
+        if (!query && filtered.length) {
+          return filtered;
+        } else if (!query && !filtered.length) {
           return null;
         } else if (
           student.firstName.toLowerCase().includes(searchTerm) ||
@@ -35,12 +40,33 @@ const App = () => {
           return student;
         }
       });
-      setFiltered(filtered);
+      setFiltered(filteredList);
     };
-    filterStudentList(query);
+    filterName(query);
   }, [query]);
 
-  const listToRender = query ? filtered : students;
+  useEffect(() => {
+    const filterTag = (tagQuery) => {
+      console.log(filtered);
+      const list = tagQuery && filtered.length ? filtered : students;
+      const filteredList = list.filter((student) => {
+        if (!tagQuery && filtered.length) {
+          return filtered;
+        } else if (!tagQuery && !filtered.length) {
+          return null;
+        } else if (student.tags) {
+          const lowercased = student.tags.map((tag) => tag.toLowerCase());
+          const searchTerm = new RegExp(tagQuery.toLowerCase());
+          if (searchTerm.test(lowercased)) return student;
+        }
+      });
+      setFiltered(filteredList);
+    };
+    filterTag(tagQuery);
+  }, [tagQuery]);
+
+  const listToRender =
+    query || tagQuery ? filtered : tagged.length ? tagged : students;
 
   const getAverage = (grades) => {
     let sum = grades
@@ -53,11 +79,21 @@ const App = () => {
     setShowGrades(showGrades === index ? null : index);
   };
 
+  const handleAddTag = (e, index) => {
+    e.preventDefault();
+    const newTag = e.target.tag.value;
+    students[index].tags = students[index].tags ? students[index].tags : [];
+    students[index].tags.push(newTag);
+    setTagged([...students]);
+    e.target.reset();
+  };
+
   return (
     <main className="container">
       <div>
         <input
           className="search-input"
+          type="text"
           placeholder="Search by name"
           onChange={(e) => {
             setQuery(e.target.value);
@@ -65,6 +101,7 @@ const App = () => {
         />
         <input
           className="search-input"
+          type="text"
           placeholder="Search by tag"
           onChange={(e) => {
             setTagQuery(e.target.value);
@@ -84,7 +121,7 @@ const App = () => {
                 {student.firstName} {student.lastName}
               </h1>
               <p>
-                Email: <a href={student.email}>{student.email}</a>
+                Email: <a href={`mailto:${student.email}`}>{student.email}</a>
               </p>
               <p>Company: {student.company}</p>
               <p>Skill: {student.skill}</p>
@@ -93,7 +130,7 @@ const App = () => {
                 <div>
                   {student.grades.map((grade) => {
                     return (
-                      <p>
+                      <p className="grades">
                         Test {student.grades.indexOf(grade) + 1}: &nbsp;&nbsp;{" "}
                         {grade}%
                       </p>
@@ -101,6 +138,25 @@ const App = () => {
                   })}
                 </div>
               )}
+              {student.tags && (
+                <div className="tag-container">
+                  {student.tags.map((tag) => {
+                    return (
+                      <span key={student.tags.indexOf(tag)} className="tag">
+                        {tag}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+              <form onSubmit={(e) => handleAddTag(e, index)}>
+                <input
+                  type="text"
+                  name="tag"
+                  className="tag-input"
+                  placeholder="Add a tag"
+                />
+              </form>
             </div>
             <button onClick={() => handleClick(index)}>
               {showGrades === index ? "-" : "+"}
