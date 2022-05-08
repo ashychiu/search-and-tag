@@ -26,7 +26,6 @@ const App = () => {
   useEffect(() => {
     const filterName = (query) => {
       const searchTerm = query.toLowerCase();
-      console.log(filtered);
       const list = query && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
         if (!query && !filtered.length) {
@@ -47,7 +46,6 @@ const App = () => {
 
   useEffect(() => {
     const filterTag = (tagQuery) => {
-      console.log(filtered);
       const list = tagQuery && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
         if (!tagQuery && !filtered.length) {
