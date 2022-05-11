@@ -63,9 +63,6 @@ const App = () => {
     filterTag(tagQuery);
   }, [tagQuery]);
 
-  const listToRender =
-    query || tagQuery ? filtered : tagged.length ? tagged : students;
-
   const getAverage = (grades) => {
     let sum = grades
       .map((grade) => Number(grade))
@@ -85,6 +82,9 @@ const App = () => {
     setTagged([...students]);
     e.target.reset();
   };
+
+  const listToRender =
+    query || tagQuery ? filtered : tagged.length ? tagged : students;
 
   return (
     <main className="container">
