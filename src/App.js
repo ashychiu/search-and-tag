@@ -74,11 +74,13 @@ const App = () => {
     setShowGrades(showGrades === index ? null : index);
   };
 
-  const handleAddTag = (e, index) => {
+  const handleAddTag = (e, id) => {
+    console.log("id", id);
     e.preventDefault();
     const newTag = e.target.tag.value;
-    students[index].tags = students[index].tags ? students[index].tags : [];
-    students[index].tags.push(newTag);
+    const currStudent = students.find((student) => student.id === id);
+    currStudent.tags = currStudent.tags ? currStudent.tags : [];
+    currStudent.tags.push(newTag);
     setTagged([...students]);
     e.target.reset();
   };
@@ -153,7 +155,7 @@ const App = () => {
                   })}
                 </div>
               )}
-              <form onSubmit={(e) => handleAddTag(e, index)}>
+              <form onSubmit={(e) => handleAddTag(e, student.id)}>
                 <label htmlFor="tag">
                   <input
                     type="text"

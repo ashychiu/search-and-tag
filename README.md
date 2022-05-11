@@ -1,6 +1,6 @@
 #### Description
 
-Frontend Assessment - Student Profiles with Responsive Design
+Frontend Project - Student Profiles with Responsive Design
 
 #### Tech stack
 
