@@ -79,6 +79,9 @@ h1 {
     width: 80%;
     margin-bottom: 1.5rem;
   }
+  &__grades {
+    margin-bottom: 0;
+  }
 }
 
 .search-input {
@@ -113,13 +116,9 @@ div > p {
   }
 }
 
-p.grades {
-  margin-bottom: 0;
-}
-
 .tag-container {
   margin-top: 0.625rem;
-  overflow: auto;
+  overflow: scroll;
   @include tablet {
     margin-top: 1rem;
     margin-left: 1rem;

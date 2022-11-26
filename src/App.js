@@ -1,10 +1,9 @@
 import "./styles/global.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import React from "react";
 
 const App = () => {
   const [students, setStudents] = useState([]);
-  const [tagged, setTagged] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [query, setQuery] = useState("");
   const [tagQuery, setTagQuery] = useState("");
@@ -23,9 +22,10 @@ const App = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
+  useMemo(() => {
     const filterName = (query) => {
       const searchTerm = query.toLowerCase();
+      console.log(searchTerm);
       const list = query && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
         if (!query && !filtered.length) {
@@ -38,13 +38,14 @@ const App = () => {
         ) {
           return student;
         }
+        return null;
       });
       setFiltered(filteredList);
     };
     filterName(query);
-  }, [query]);
+  }, [query, students, filtered]);
 
-  useEffect(() => {
+  useMemo(() => {
     const filterTag = (tagQuery) => {
       const list = tagQuery && filtered.length ? filtered : students;
       const filteredList = list.filter((student) => {
@@ -53,15 +54,16 @@ const App = () => {
         } else if (!tagQuery && filtered.length) {
           return filtered;
         } else if (student.tags) {
-          const lowercased = student.tags.map((tag) => tag.toLowerCase());
+          const lowercaseTags = student.tags.map((tag) => tag.toLowerCase());
           const searchTerm = new RegExp(tagQuery.toLowerCase());
-          if (searchTerm.test(lowercased)) return student;
+          return searchTerm.test(lowercaseTags) ? student : null;
         }
+        return null;
       });
       setFiltered(filteredList);
     };
     filterTag(tagQuery);
-  }, [tagQuery]);
+  }, [tagQuery, students, filtered]);
 
   const getAverage = (grades) => {
     let sum = grades
@@ -75,18 +77,26 @@ const App = () => {
   };
 
   const handleAddTag = (e, id) => {
-    console.log("id", id);
     e.preventDefault();
     const newTag = e.target.tag.value;
-    const currStudent = students.find((student) => student.id === id);
-    currStudent.tags = currStudent.tags ? currStudent.tags : [];
-    currStudent.tags.push(newTag);
-    setTagged([...students]);
+    setStudents((prev) =>
+      prev.map((student) => {
+        if (student.id === id) {
+          const studentCopy = { ...student };
+          studentCopy.tags = student.tags
+            ? [...student.tags, newTag]
+            : [newTag];
+          console.log(studentCopy);
+          return studentCopy;
+        } else {
+          return student;
+        }
+      })
+    );
     e.target.reset();
   };
 
-  const listToRender =
-    query || tagQuery ? filtered : tagged.length ? tagged : students;
+  const listToRender = query || tagQuery ? filtered : students;
 
   return (
     <main className="container">
