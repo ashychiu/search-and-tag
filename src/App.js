@@ -22,48 +22,50 @@ const App = () => {
     fetchData();
   }, []);
 
-  useMemo(() => {
-    const filterName = (query) => {
-      const searchTerm = query.toLowerCase();
-      console.log(searchTerm);
-      const list = query && filtered.length ? filtered : students;
-      const filteredList = list.filter((student) => {
-        if (!query && !filtered.length) {
-          return null;
-        } else if (!query && filtered.length) {
-          return filtered;
-        } else if (
-          student.firstName.toLowerCase().includes(searchTerm) ||
-          student.lastName.toLowerCase().includes(searchTerm)
-        ) {
-          return student;
-        }
+  const filterName = (query) => {
+    const searchTerm = query.toLowerCase();
+    console.log(searchTerm);
+    const list = query && filtered.length ? filtered : students;
+    const filteredList = list.filter((student) => {
+      if (!query && !filtered.length) {
         return null;
-      });
-      setFiltered(filteredList);
-    };
-    filterName(query);
-  }, [query, students, filtered]);
+      } else if (!query && filtered.length) {
+        return filtered;
+      } else if (
+        student.firstName.toLowerCase().includes(searchTerm) ||
+        student.lastName.toLowerCase().includes(searchTerm)
+      ) {
+        return student;
+      }
+      return null;
+    });
+    setFiltered(filteredList);
+  };
 
   useMemo(() => {
-    const filterTag = (tagQuery) => {
-      const list = tagQuery && filtered.length ? filtered : students;
-      const filteredList = list.filter((student) => {
-        if (!tagQuery && !filtered.length) {
-          return null;
-        } else if (!tagQuery && filtered.length) {
-          return filtered;
-        } else if (student.tags) {
-          const lowercaseTags = student.tags.map((tag) => tag.toLowerCase());
-          const searchTerm = new RegExp(tagQuery.toLowerCase());
-          return searchTerm.test(lowercaseTags) ? student : null;
-        }
+    filterName(query);
+  }, [query]);
+
+  const filterTag = (tagQuery) => {
+    const list = tagQuery && filtered.length ? filtered : students;
+    const filteredList = list.filter((student) => {
+      if (!tagQuery && !filtered.length) {
         return null;
-      });
-      setFiltered(filteredList);
-    };
+      } else if (!tagQuery && filtered.length) {
+        return filtered;
+      } else if (student.tags) {
+        const lowercaseTags = student.tags.map((tag) => tag.toLowerCase());
+        const searchTerm = new RegExp(tagQuery.toLowerCase());
+        return searchTerm.test(lowercaseTags) ? student : null;
+      }
+      return null;
+    });
+    setFiltered(filteredList);
+  };
+
+  useMemo(() => {
     filterTag(tagQuery);
-  }, [tagQuery, students, filtered]);
+  }, [tagQuery]);
 
   const getAverage = (grades) => {
     let sum = grades
